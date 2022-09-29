@@ -2,19 +2,21 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const expressHandlebar = require("express-handlebars")
+// const expressHandlebar = require("express-handlebars")
 
 const app = express();
 
 // the first parameter depend on us, And it effect even files' extension
 // app.engine('handlebars', expressHandlebar())
+/*
 app.engine('hbs', expressHandlebar({
     layoutsDir: 'views/layouts',
     defaultLayout: 'main-layout',
     extname: 'hbs'
 }))
-
 app.set('view engine', 'hbs');
+*/
+app.set('view engine', 'ejs');
 app.set("views", "views")
 
 const adminData = require('./routes/admin');
