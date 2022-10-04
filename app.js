@@ -16,6 +16,7 @@ app.engine('hbs', expressHandlebar({
 }))
 app.set('view engine', 'hbs');
 */
+
 app.set('view engine', 'ejs');
 app.set("views", "views")
 

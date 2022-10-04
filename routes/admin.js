@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 
 const rootDir = require('../util/path');
-const { getAddProduct, postAddProduct } = require('../controllers/products');
+const { getAddProduct, postAddProduct, getProducts } = require('../controllers/admin');
 
 const router = express.Router();
 
@@ -14,5 +14,8 @@ router.get('/add-product', getAddProduct);
 
 // /admin/add-product => POST
 router.post('/add-product', postAddProduct);
+
+// /admin/product => GET
+router.get('/products', getProducts);
 
 module.exports = router

@@ -1,7 +1,4 @@
-const Product = require("../models/product");
-
-
-
+const Product = require("../models/product")
 
 exports.getAddProduct = (req, res, next) => {
     res.render('admin/add-product', {
@@ -14,23 +11,19 @@ exports.getAddProduct = (req, res, next) => {
 }
 
 exports.postAddProduct = (req, res, next) => {
-    const product = new Product(req.body.title)
+    const { title, imageUrl, description, price } = req.body
+
+    const product = new Product(title, imageUrl, description, price)
     product.save()
     res.redirect('/');
 }
 
-
 exports.getProducts = (req, res, next) => {
     Product.fetchAll((products) => {
-        res.render("shop/product-list", {
+        res.render("admin/products", {
             products: products,
-            pageTitle: 'Shop',
-            path: "/",
-            hasProducts: products.length > 0,
-            activeShop: true,
-            productCSS: true,
+            pageTitle: 'Admin Products',
+            path: "/admin/products"
         })
     })
 }
-
-
