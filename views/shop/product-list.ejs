@@ -6,9 +6,9 @@
         <%- include('../includes/navigation.ejs') %>
 
             <main>
-                <% if (prods.length > 0) { %>
+                <% if (products.length > 0) { %>
                     <div class="grid">
-                        <% for (let product of prods) { %>
+                        <% for (let product of products) { %>
                             <article class="card product-item">
                                 <header class="card__header">
                                     <h1 class="product__title">
@@ -27,6 +27,7 @@
                                     </p>
                                 </div>
                                 <div class="card__actions">
+                                  <a href="/products/<%= product.id %> " class="btn">Details</a>
                                     <form action="/add-to-cart" method="POST">
                                         <button class="btn">Add to Cart</button>
                                     </form>
@@ -36,6 +37,6 @@
                     </div>
                     <% } else { %>
                         <h1>No Products Found!</h1>
-                        <% } %>
+                    <% } %>
             </main>
             <%- include('../includes/end.ejs') %>
