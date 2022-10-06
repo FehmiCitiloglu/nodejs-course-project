@@ -1,7 +1,15 @@
 // const path = require('path');
 
 const express = require('express');
-const { getProducts, getIndex, getCart, getCheckout, getOrders, getProduct } = require('../controllers/shop');
+const {
+    getProducts,
+    getIndex,
+    getCart,
+    getCheckout,
+    getOrders,
+    getProduct,
+    postCart
+} = require('../controllers/shop');
 
 // const rootDir = require('../util/path');
 
@@ -17,6 +25,8 @@ router.get("/products/delete",)
 router.get("/products/:productId", getProduct)
 
 router.get("/cart", getCart)
+router.post("/cart", postCart)
+
 router.get("/checkout", getCheckout)
 router.get("/orders", getOrders)
 
