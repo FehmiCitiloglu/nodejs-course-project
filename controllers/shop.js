@@ -36,7 +36,7 @@ exports.getCart = (req, res, next) => {
             for (let product of products) {
                 const cartProductData = cart.products.find((prod) => prod.id === product.id)
                 if (cartProductData) {
-                    cartProducts.push({ productData: product, qty: cartProductData.qty })
+                    cartProducts.push({ productData: product, qty: cartProductData.qty++ })
                 }
             }
             res.render("shop/cart", {
@@ -66,6 +66,14 @@ exports.postCart = (res, req, next) => {
     })
 
     req.redirect("/cart")
+}
+
+exports.postCartDeleteProduct = (req, res, next) => {
+    const prodId = req.body.productId
+    Product.findById(prodId, (product) => {
+        Cart.deleteProduct(prodId, product.price)
+        res.redirect("/cart")
+    })
 }
 
 exports.getOrders = (req, res, next) => {

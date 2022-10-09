@@ -21,7 +21,7 @@ module.exports = class Cart {
             let updatedProduct
             if (existingProduct) {
                 updatedProduct = { ...existingProduct }
-                updatedProduct.qty = updatedProduct.qty++
+                updatedProduct.qty = updatedProduct.qty + 1
                 cart.products = [...cart.products]
                 cart.products[existingProductIndex] = updatedProduct
             } else {
@@ -44,6 +44,9 @@ module.exports = class Cart {
 
             const updatedCart = { ...JSON.parse(fileContent) }
             const product = updatedCart.products.find((prod) => prod.id === id)
+            if (!product) {
+                return
+            }
             const productQty = product.qty
 
             updatedCart.products = updatedCart.products.filter((prod) => prod.id !== id)
