@@ -7,8 +7,6 @@ const { getAddProduct, postAddProduct, getProducts, getEditProduct } = require('
 
 const router = express.Router();
 
-
-
 // /admin/add-product => GET
 router.get('/add-product', getAddProduct);
 
