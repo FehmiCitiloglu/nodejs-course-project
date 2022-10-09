@@ -4,7 +4,18 @@
 
   <body>
  <%- include('../includes/navigation') %> 
-
- <h1>cart page</h1>
+  <main>
+      <% if (products.length > 0) { %>
+          <ul>
+            <% for( let product of products ) { %>
+              <li>
+                 <%= product.productData.title %> (<%= product.qty %>) 
+               </li>
+            <% } %>
+          </ul>
+      <% } else { %>
+        <h1>No Products in Cart!</h1>
+      <% }  %>
+  </main>
 
 <%- include('../includes/end') %> 
