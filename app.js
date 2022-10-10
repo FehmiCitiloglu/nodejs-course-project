@@ -4,6 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // const expressHandlebar = require("express-handlebars")
 
+const db = require("./util/database")
+
 const app = express();
 
 // the first parameter depend on us, And it effect even files' extension
@@ -24,12 +26,16 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const { get404 } = require('./controllers/error');
 
+db.query("SELECT * FROM products").then((result) => console.log(result.rows)).catch((err) => console.error(err))
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
+
+db.end()
 
 app.use(get404);
 
