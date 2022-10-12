@@ -13,5 +13,3 @@ const CartItem = sequelize.define("cart_item", {
 
 
 module.exports = CartItem
-
-

@@ -65,11 +65,11 @@ exports.getIndex = (req, res, next) => {
 }
 
 exports.getCart = (req, res, next) => {
-
     req.user
         .getCart()
         .then((cart) => {
             return cart.getProducts().then((products) => {
+                console.log("products", products);
                 res.render("shop/cart", {
                     path: "/cart",
                     pageTitle: "Your Cart",
@@ -91,8 +91,10 @@ exports.getCheckout = (req, res, next) => {
 exports.postCart = (res, req, next) => {
     const { productId } = res.body
     let fetchedCart
-    console.log(req.user);
-    req.user.getCart()
+    let newQuantity = 1
+
+    res.user
+        .getCart()
         .then((cart) => {
             fetchedCart = cart
             return cart.getProducts({ where: { id: productId } })
@@ -101,31 +103,26 @@ exports.postCart = (res, req, next) => {
             if (products.length > 0) {
                 product = products[0]
             }
-            let newQuantity = 1
+
             if (product) {
-                // ...
+                const oldQuantity = product.cart_item.quantity
+                newQuantity = oldQuantity + 1
+                return product
             }
             return Product.findByPk(productId)
-                .then((product) => {
-                    return fetchedCart.addProduct(product, {
-                        through: { quantity: newQuantity }
-                    })
-                })
-                .catch((err) => console.error(err))
-
+        })
+        .then((product) => {
+            return fetchedCart.addProduct(product, {
+                through: { quantity: newQuantity }
+            })
         })
         .then(() => {
-            res.redirect("/cart")
+            req.redirect("/cart")
         })
         .catch((err) => {
             console.error(err);
         })
 
-    // Product.findById(productId, (product) => {
-    //     Cart.addProduct(productId, product.price)
-    // })
-
-    // req.redirect("/cart")
 }
 
 exports.postCartDeleteProduct = (req, res, next) => {
