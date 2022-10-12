@@ -1,38 +1,30 @@
-const { Pool, Client } = require("pg");
+// const { Pool, Client } = require("pg");
 
 
-const credentials = {
-    user: "postgres",
-    host: "localhost",
-    database: "node-complete",
-    password: "postgrespw",
-    port: 55000,
-};
-
-const pool = new Pool(credentials);
-
-// async function poolDemo() {
-//     const now = await pool.query("SELECT NOW()");
-//     await pool.end();
-//     return now;
-// }
-
-module.exports = pool
-
-// async function clientDemo() {
-//     const client = new Client(credentials);
-//     await client.connect();
-//     const now = await client.query("SELECT NOW()");
-//     await client.end();
-
-//     return now;
-// }
+// const credentials = {
+//     user: "postgres",
+//     host: "localhost",
+//     database: "node-complete",
+//     password: "postgrespw",
+//     port: 55000,
+// };
 
 
-// (async () => {
-//     const poolResult = await poolDemo();
-//     console.log("Time with pool: " + poolResult.rows[0]["now"]);
+const Sequelize = require("sequelize")
 
-//     const clientResult = await clientDemo();
-//     console.log("Time with client: " + clientResult.rows[0]["now"]);
-// })();
+const sequelize = new Sequelize("node-complete", 'postgres', 'postgrespw',
+    {
+        dialect: 'postgres',
+        host: 'localhost',
+        port: 55000,
+    }
+)
+
+try {
+    sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+} catch (error) {
+    console.error('Unable to connect to the database:', error);
+}
+
+module.exports = sequelize
