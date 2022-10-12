@@ -27,6 +27,8 @@ const shopRoutes = require('./routes/shop');
 const { get404 } = require('./controllers/error');
 const Product = require("./models/product")
 const User = require("./models/user")
+const Cart = require("./models/cart")
+const CartItem = require("./models/cart-item")
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -35,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
     User.findByPk(1)
         .then((user) => {
-            console.log("user in app.js", user)
+            // console.log("user in app.js", user)
             req.user = user
             next()
         })
@@ -47,19 +49,21 @@ app.use((req, res, next) => {
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
-
 app.use(get404);
 
-
-// Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" })
+Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" })
 User.hasMany(Product)
+User.hasOne(Cart)
+Cart.belongsTo(User)
+Cart.belongsToMany(Product, { through: CartItem })
+Product.belongsToMany(Cart, { through: CartItem })
 
-// .sync({ force: true })
 sequelize
-    .sync()
+    // .sync()
+    .sync({ force: true })
     .then(result => {
         return User.findByPk(1)
-        // console.log(result)
+
     }).then((user) => {
         if (!user) {
             return User.create({ name: "Fehmi", email: "test@test.com" })
@@ -67,7 +71,7 @@ sequelize
         return user
     })
     .then((user) => {
-        console.log(user);
+        // console.log(user);
         app.listen(3000);
     })
     .catch((err) => {
