@@ -37,8 +37,8 @@ exports.getEditProduct = (req, res, next) => {
 
     const prodId = req.params.productId
 
-
-    Product.findByPk(prodId)
+    req.user.getProducts({ where: { id: prodId } })
+        // Product.findByPk(prodId)
         .then((product) => {
             if (!product) {
                 return res.redirect("/")
@@ -47,7 +47,7 @@ exports.getEditProduct = (req, res, next) => {
                 pageTitle: 'Edit Product',
                 path: "/admin/edit-product",
                 editing: editMode,
-                product
+                product: product[0]
             })
         })
         .catch((err) => { console.error(err); })
@@ -77,7 +77,8 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
 
-    Product.findAll()
+    // Product.findAll()
+    req.user.getProducts()
         .then((products) => {
             res.render("admin/products", {
                 products,
