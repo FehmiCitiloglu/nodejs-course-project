@@ -35,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
     User.findByPk(1)
         .then((user) => {
+            console.log("user in app.js", user)
             req.user = user
             next()
         })
@@ -50,11 +51,11 @@ app.use(shopRoutes);
 app.use(get404);
 
 
-Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" })
-// User.hasMany(Product)
+// Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" })
+User.hasMany(Product)
 
+// .sync({ force: true })
 sequelize
-    // .sync({ force: true })
     .sync()
     .then(result => {
         return User.findByPk(1)
