@@ -11,10 +11,18 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
     const { title, imageUrl, description, price } = req.body
 
-    const product = new Product(null, title, imageUrl, description, price)
+    // const product = new Product(null, title, imageUrl, description, price)
 
-    product.save().then((result) => { console.log(result); }).catch((err) => console.error(err))
-    res.redirect('/');
+    // product.save().then((result) => { console.log(result); }).catch((err) => console.error(err))
+    // res.redirect('/');
+    Product
+        .create({ title, image_url: imageUrl, price, description })
+        .then((result) => {
+            console.log(result);
+        })
+        .catch((err) => {
+            console.error(err);
+        })
 }
 
 exports.getEditProduct = (req, res, next) => {

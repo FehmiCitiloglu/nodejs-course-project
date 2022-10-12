@@ -20,7 +20,7 @@ const Product = sequelize.define('product',
             allowNull: false,
         },
         image_url: {
-            type: Sequelize.STRING,
+            type: Sequelize.TEXT,
             allowNull: false,
         },
         description: {
