@@ -5,6 +5,25 @@
   <body>
  <%- include('../includes/navigation') %> 
 
- <h1>order page</h1>
+    <main>
+      <% if (!orders || orders.length === 0) { %>
+       <h1>Nothing there!</h1>
+        <% } else  { %>
+         <ul>
+          <% for( let order of orders ) { %>
+            <li>
+              <h1><%= order.id %> </h1>
+              <ul>
+                <% for( let item in order["product"]) { %>
+                  <li>
+                    <%= item.title %> (<%= item.order_item.quantity %> )
+                  </li>
+                <% } %>
+              </ul>
+            </li>
+          <% } %>
+         </ul>
+      <% } %>
+    </main>
 
 <%- include('../includes/end') %> 

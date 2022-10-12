@@ -33,7 +33,7 @@ router.post("/cart-delete-item", postCartDeleteProduct)
 
 router.post("/create-order", postOrder)
 
-router.get("/checkout", getCheckout)
+// router.get("/checkout", getCheckout)
 router.get("/orders", getOrders)
 
 
