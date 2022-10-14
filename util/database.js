@@ -1,30 +1,20 @@
-// const { Pool, Client } = require("pg");
+const { MongoClient, ServerApiVersion } = require('mongodb');
+
+const uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.dxkoo.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri);
 
 
-// const credentials = {
-//     user: "postgres",
-//     host: "localhost",
-//     database: "node-complete",
-//     password: "postgrespw",
-//     port: 55000,
-// };
+const mongoConnect = (callback) => {
 
-
-const Sequelize = require("sequelize")
-
-const sequelize = new Sequelize("node-complete", 'postgres', 'postgrespw',
-    {
-        dialect: 'postgres',
-        host: 'localhost',
-        port: 55000,
-    }
-)
-
-try {
-    sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-} catch (error) {
-    console.error('Unable to connect to the database:', error);
+    client.connect()
+        .then((client) => {
+            console.log("connected");
+            callback(client)
+        })
+        .catch((err) => {
+            console.error(err);
+            client.close()
+        })
 }
 
-module.exports = sequelize
+module.exports = mongoConnect
