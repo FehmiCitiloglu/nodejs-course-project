@@ -8,6 +8,9 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set("views", "views")
 
+const User = require("./models/user")
+
+
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const { get404 } = require('./controllers/error');
@@ -26,5 +29,13 @@ app.use(get404);
 
 
 mongoConnect(() => {
+
+    new User("fehmi", "test@test.com").save()
+    // const user = new User()
+    User
+        .findById("6349dc1e9e95fa4c567428c7")
+        .then((user) => { console.log("user", user); })
+        .catch((err) => { console.error(err); })
+
     app.listen(3000)
 })
