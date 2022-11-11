@@ -22,6 +22,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.use((req, res, next) => {
+    User
+    .findById("6349dc1e9e95fa4c567428c7")
+    .then((user) => { 
+        req.user = user
+        next()
+    })
+    .catch((err) => { console.error(err); })
+})
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
@@ -30,12 +40,9 @@ app.use(get404);
 
 mongoConnect(() => {
 
-    new User("fehmi", "test@test.com").save()
+    // new User("fehmi", "test@test.com").save()
     // const user = new User()
-    User
-        .findById("6349dc1e9e95fa4c567428c7")
-        .then((user) => { console.log("user", user); })
-        .catch((err) => { console.error(err); })
+
 
     app.listen(3000)
 })
