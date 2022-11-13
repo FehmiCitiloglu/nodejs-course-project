@@ -29,7 +29,7 @@ router.get("/products/:productId", getProduct);
 router.get("/cart", getCart);
 router.post("/cart", postCart);
 
-// router.post("/cart-delete-item", postCartDeleteProduct)
+router.post("/cart-delete-item", postCartDeleteProduct);
 
 // router.post("/create-order", postOrder)
 
