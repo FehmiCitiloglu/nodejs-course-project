@@ -90,14 +90,12 @@ exports.getCheckout = (req, res, next) => {
 
 exports.postCart = (res, req, next) => {
   const { productId } = res.body;
-  console.log("productId", productId);
+
   Product.findById(productId)
     .then((product) => {
-      console.log("postCart product", product);
       return req.user.addToCart(product);
     })
     .then((result) => {
-      console.log("result", result);
       req.redirect("/cart");
     });
   // let fetchedCart
@@ -149,7 +147,6 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
-  console.log("postOrder", res.user);
   res.user
     .addOrder()
     .then(() => {
@@ -161,10 +158,9 @@ exports.postOrder = (req, res, next) => {
 };
 
 exports.getOrders = (req, res, next) => {
-  req.user
-    .getOrders({ include: ["products"] })
+  res.user
+    .getOrders()
     .then((orders) => {
-      console.log("orders", orders);
       res.render("shop/orders", {
         path: "/orders",
         pageTitle: "Your Orders",
