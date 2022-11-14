@@ -3,8 +3,9 @@ const Product = require("../models/product");
 // const Order = require("../models/order")
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
+      console.log("products", products);
       res.render("shop/product-list", {
         products,
         pageTitle: "All Products",
@@ -18,24 +19,6 @@ exports.getProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const productId = req.params.productId;
-
-  // Product.findAll({
-  //     where: {
-  //         id: productId
-  //     }
-  // })
-  //     .then((product) => {
-  //         res.render("shop/product-detail",
-  //             {
-  //                 product: product[0],
-  //                 pageTitle: product.title,
-  //                 path: "/products"
-  //             }
-  //         )
-  //     })
-  //     .catch((err) => {
-  //         console.error(err)
-  //     })
 
   Product.findById(productId)
     .then((product) => {
