@@ -2,6 +2,7 @@ const path = require("path");
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const app = express();
 
@@ -13,8 +14,6 @@ const User = require("./models/user");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const { get404 } = require("./controllers/error");
-
-const { mongoConnect } = require("./util/database");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -35,9 +34,14 @@ app.use(shopRoutes);
 
 app.use(get404);
 
-mongoConnect(() => {
-  // new User("fehmi", "test@test.com").save()
-  // const user = new User()
-
-  app.listen(3000);
-});
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.dxkoo.mongodb.net/?retryWrites=true&w=majority`
+  )
+  .then((result) => {
+    app.listen(3000);
+    console.info("db connected");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
