@@ -34,7 +34,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
       res.render("shop/index", {
         products,
@@ -132,9 +132,10 @@ exports.postOrder = (req, res, next) => {
   res.user
     .populate("cart.items.productId")
     .then((user) => {
+      console.log(user.cart.items);
       const products = user.cart.items.map((i) => ({
         quantity: i.quantity,
-        product: i.productId,
+        product: { ...i.productId._doc },
       }));
       const order = new Order({
         user: {
