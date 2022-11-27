@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 
-const MONGODB_URI = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.dxkoo.mongodb.net/shop?retryWrites=true&w=majority`;
+const MONGODB_URI = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.dxkoo.mongodb.net/shop?w=majority`;
 
 const app = express();
 const store = new MongoDBStore({
@@ -61,5 +61,6 @@ mongoose
     console.info("db connected");
   })
   .catch((err) => {
+    console.log("patladi");
     console.error(err);
   });

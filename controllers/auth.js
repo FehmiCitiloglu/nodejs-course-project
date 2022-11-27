@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const bcryptjs = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 exports.getLogin = (req, res, next) => {
   res.render("auth/login", {
@@ -10,14 +10,31 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.postLogin = (req, res, next) => {
-  User.findById("6372901c569cef333180ac1d")
+  const { email, password } = req.body;
+  User.findOne({ email })
     .then((user) => {
-      req.session.isLoggedIn = true;
-      req.session.user = user;
-      req.session.save((err) => {
-        console.error(err);
-        res.redirect("/");
-      });
+      if (!user) {
+        return res.redirect("/login");
+      }
+
+      bcrypt
+        .compare(password, user.password)
+        .then((doMatch) => {
+          if (doMatch) {
+            req.session.isLoggedIn = true;
+            req.session.user = user;
+            req.session.save((err) => {
+              console.error(err);
+              res.redirect("/");
+            });
+          } else {
+            res.redirect("/login");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          res.redirect("/login");
+        });
     })
     .catch((err) => {
       console.error(err);
@@ -49,7 +66,7 @@ exports.postSignUp = (req, res, next) => {
       if (userDoc) {
         return res.redirect("/signup");
       }
-      return bcryptjs
+      return bcrypt
         .hash(password, 12)
         .then((hashedPassword) => {
           const user = new User({
