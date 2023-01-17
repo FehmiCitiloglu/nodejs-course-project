@@ -243,9 +243,9 @@ form {
 }
 
 .user-message--error {
-  background-color: #ff0000;
+  background-color: #bf6969;
   border-color: rgb(239, 48, 48, 0.8);
-  color: azure;
+  color: white;
 }
 
 @media (min-width: 768px) {
