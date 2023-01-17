@@ -63,8 +63,6 @@ exports.postEditProduct = (req, res, next) => {
   // const product = new Product(title, price, imageUrl, description, productId);
   Product.findById(productId)
     .then((product) => {
-      console.log("product inside postEditProduct", product);
-
       product.title = title;
       product.price = price;
       product.description = description;
@@ -85,7 +83,6 @@ exports.getProducts = (req, res, next) => {
     .select("title price _id")
     .populate("userId", "name")
     .then((products) => {
-      console.log(products);
       res.render("admin/products", {
         products,
         pageTitle: "Admin Products",
@@ -101,7 +98,6 @@ exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   Product.findByIdAndRemove(prodId)
     .then(() => {
-      console.log("DESTROYED PRODUCT");
       res.redirect("/admin/products");
     })
     .catch((err) => {

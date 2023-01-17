@@ -15,10 +15,8 @@ const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: "sessions",
 });
-console.log(store);
 
 const csrfProtection = csrf({});
-console.log("process.env.USERNAME", process.env.USERNAME);
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -46,9 +44,7 @@ app.use(csrfProtection);
 app.use(flash());
 
 app.use((req, res, next) => {
-  console.log("req.session.user yok");
   if (!req.session.user) {
-    console.log("req.session.user yok");
     return next();
   }
   User.findById(req.session.user._id)
@@ -64,7 +60,6 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
-  console.log("res.locals.csrfToken", res.locals.csrfToken);
   next();
 });
 
