@@ -73,7 +73,6 @@ mongoose
   .connect(MONGODB_URI)
   .then((result) => {
     console.info("db connected");
-    console.info("http://localhost:3000");
     app.listen(3000);
   })
   .catch((err) => {
