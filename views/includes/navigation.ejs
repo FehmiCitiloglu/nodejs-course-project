@@ -97,15 +97,15 @@
     <% } %>
     <% if (!isAuthenticated) { %>
       <li class="mobile-nav__item">
-        <a href="/login" class="<%= path === "/login" ? "active" : "" %> " >Login</a>
+        <a href="/login" class="<%= path === "/login" ? "active" : "" %>" >Login</a>
       </li>
       <li class="mobile-nav__item">
-        <a href="/signup" class="<%= path === "/login" ? "active" : "" %> " >Sign Up</a>
+        <a href="/signup" class="<%= path === "/login" ? "active" : "" %>" >Sign Up</a>
       </li>
       <% } else { %>
         <li class="mobile-nav__item">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <a href="/logout" class="<%= path === "/login" ? "active" : "" %> " >Logout</a>
+          <a href="/logout" class="<%= path === "/login" ? "active" : "" %>" >Logout</a>
         </li>
         <% } %>
   

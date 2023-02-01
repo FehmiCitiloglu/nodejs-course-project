@@ -1,8 +1,5 @@
-const path = require("path");
-
+const { body } = require("express-validator");
 const express = require("express");
-
-const rootDir = require("../util/path");
 const {
   getAddProduct,
   postAddProduct,
@@ -20,14 +17,34 @@ const isAuth = require("../middleware/is-auth");
 router.get("/add-product", isAuth, getAddProduct);
 
 // /admin/add-product => POST
-router.post("/add-product", isAuth, postAddProduct);
+router.post(
+  "/add-product",
+  [
+    body("title").isAlphanumeric().isLength({ min: 3 }).trim(),
+    body("imageUrl").isURL(),
+    body("price").isFloat().trim(),
+    body("description").isLength({ min: 5, max: 400 }).trim(),
+  ],
+  isAuth,
+  postAddProduct
+);
 
 // /admin/product => GET
 router.get("/products", isAuth, getProducts);
 
 router.get("/edit-product/:productId", isAuth, getEditProduct);
 
-router.post("/edit-product", isAuth, postEditProduct);
+router.post(
+  "/edit-product",
+  [
+    body("title").isAlphanumeric().isLength({ min: 3 }).trim(),
+    body("imageUrl").isURL(),
+    body("price").isFloat().trim(),
+    body("description").isLength({ min: 5, max: 400 }).trim(),
+  ],
+  isAuth,
+  postEditProduct
+);
 router.post("/delete-product", isAuth, postDeleteProduct);
 
 module.exports = router;
