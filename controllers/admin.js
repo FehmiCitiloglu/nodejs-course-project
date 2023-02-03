@@ -84,9 +84,8 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
   const { productId, title, price, imageUrl, description } = req.body;
-  console.log(req.body);
   const errors = validationResult(req);
-  console.log("errors messages", errors);
+
   if (!errors.isEmpty()) {
     return res.status(422).render("admin/edit-product", {
       pageTitle: "Edit Product",
@@ -104,10 +103,8 @@ exports.postEditProduct = (req, res, next) => {
       validationErrors: errors.array(),
     });
   }
-  console.log("-------------------------------------------------");
   Product.findById({ _id: productId })
     .then((product) => {
-      console.log("product", product);
       if (product.userId.toString() !== req.user._id.toString()) {
         return res.redirect("/");
       }
