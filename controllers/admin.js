@@ -9,26 +9,28 @@ exports.getAddProduct = (req, res, next) => {
     editing: false,
     hasError: false,
     errorMessage: null,
+    validationErrors: [],
   });
 };
 
 exports.postAddProduct = (req, res, next) => {
   const { title, imageUrl, description, price } = req.body;
   const errors = validationResult(req);
-  console.log(errors);
-  if (errors.isEmpty()) {
+  console.log("errors messages", errors);
+  if (!errors.isEmpty()) {
     return res.status(422).render("admin/edit-product", {
       pageTitle: "Edit Product",
-      path: "/admin/edit-product",
+      path: "/admin/add-product",
       editing: false,
       hasError: true,
       product: {
-        title: title,
-        imageUrl: imageUrl,
-        price: price,
-        description: description,
+        title,
+        imageUrl,
+        price,
+        description,
       },
       errorMessage: errors.array()?.[0]?.msg,
+      validationErrors: errors.array(),
     });
   }
   const product = new Product({
@@ -72,6 +74,7 @@ exports.getEditProduct = (req, res, next) => {
         product,
         hasError: false,
         errorMessage: null,
+        validationErrors: [],
       });
     })
     .catch((err) => {
@@ -96,7 +99,6 @@ exports.postEditProduct = (req, res, next) => {
         res.redirect("/admin/products");
       });
     })
-
     .catch((err) => {
       console.error(err);
     });
