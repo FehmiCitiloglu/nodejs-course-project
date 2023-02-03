@@ -16,12 +16,12 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
   const { title, imageUrl, description, price } = req.body;
   const errors = validationResult(req);
-  console.log("errors messages", errors);
+
   if (!errors.isEmpty()) {
     return res.status(422).render("admin/edit-product", {
-      pageTitle: "Edit Product",
+      pageTitle: "Add Product",
       path: "/admin/add-product",
-      editing: false,
+      editing: true,
       hasError: true,
       product: {
         title,
@@ -38,7 +38,7 @@ exports.postAddProduct = (req, res, next) => {
     price,
     description,
     imageUrl,
-    userId: res.user,
+    userId: req.user._id,
   });
 
   product
@@ -84,11 +84,31 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
   const { productId, title, price, imageUrl, description } = req.body;
-
-  // const product = new Product(title, price, imageUrl, description, productId);
-  Product.findById(productId)
+  console.log(req.body);
+  const errors = validationResult(req);
+  console.log("errors messages", errors);
+  if (!errors.isEmpty()) {
+    return res.status(422).render("admin/edit-product", {
+      pageTitle: "Edit Product",
+      path: "/admin/edit-product",
+      editing: false,
+      hasError: true,
+      product: {
+        title,
+        imageUrl,
+        price,
+        description,
+        _id: productId,
+      },
+      errorMessage: errors.array()?.[0]?.msg,
+      validationErrors: errors.array(),
+    });
+  }
+  console.log("-------------------------------------------------");
+  Product.findById({ _id: productId })
     .then((product) => {
-      if (product.userId.toString() !== req.user._id) {
+      console.log("product", product);
+      if (product.userId.toString() !== req.user._id.toString()) {
         return res.redirect("/");
       }
       product.title = title;
@@ -105,10 +125,12 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
+  console.log("req.user", req.user);
   Product.find({ userId: req.user._id })
     .select("title price _id")
     .populate("userId", "name")
     .then((products) => {
+      console.log("products", products);
       res.render("admin/products", {
         products,
         pageTitle: "Admin Products",
