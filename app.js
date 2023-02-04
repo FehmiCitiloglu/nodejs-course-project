@@ -25,7 +25,7 @@ const User = require("./models/user");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
-const { get404 } = require("./controllers/error");
+const { get404, get500 } = require("./controllers/error");
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -49,11 +49,14 @@ app.use((req, res, next) => {
   }
   User.findById(req.session.user._id)
     .then((user) => {
+      if (!user) {
+        return next();
+      }
       req.user = user;
       next();
     })
     .catch((err) => {
-      console.error(err);
+      throw new Error(err);
     });
 });
 
@@ -66,6 +69,8 @@ app.use((req, res, next) => {
 app.use(shopRoutes);
 app.use(authRoutes);
 app.use("/admin", adminRoutes);
+
+app.use("/500", get500);
 
 app.use(get404);
 
