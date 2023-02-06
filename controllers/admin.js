@@ -15,11 +15,13 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const { title, imageUrl, description, price } = req.body;
+  const { title, description, price } = req.body;
+  const imageUrl = req.file;
+  console.log(imageUrl);
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(422).render("admin/edit-product", {
+    return res.status(422).render("admin/add-product", {
       pageTitle: "Add Product",
       path: "/admin/add-product",
       editing: true,
