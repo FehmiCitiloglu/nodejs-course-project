@@ -24,7 +24,7 @@ const fileStorage = multer.diskStorage({
     cb(null, "images");
   },
   filename: (req, file, cb) => {
-    console.log(file);
+    console.log("file object", file);
     cb(null, new Date().toISOString() + "-" + file.originalname);
   },
 });
@@ -51,6 +51,7 @@ const authRoutes = require("./routes/auth");
 const { get404, get500 } = require("./controllers/error");
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: fileStorage, fileFilter }).single("image"));
@@ -68,7 +69,7 @@ app.use(csrfProtection);
 app.use(flash());
 
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.isAuthenticated = req?.session?.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   next();
 });
@@ -105,7 +106,7 @@ app.use((error, req, res, next) => {
   res.status(500).render("500", {
     pageTitle: "Error!",
     path: "/500",
-    isAuthenticated: req.session.isLoggedIn,
+    isAuthenticated: req?.session?.isLoggedIn,
   });
 });
 

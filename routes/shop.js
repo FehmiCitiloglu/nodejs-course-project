@@ -10,6 +10,7 @@ const {
   postCart,
   postCartDeleteProduct,
   postOrder,
+  getInvoice,
 } = require("../controllers/shop");
 
 // const rootDir = require('../util/path');
@@ -36,5 +37,7 @@ router.post("/create-order", isAuth, postOrder);
 
 // // router.get("/checkout", getCheckout)
 router.get("/orders", isAuth, getOrders);
+
+router.get("/orders/:orderId", isAuth, getInvoice);
 
 module.exports = router;

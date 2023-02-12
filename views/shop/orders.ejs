@@ -12,7 +12,7 @@
          <ul>
           <% for( let order of orders ) { %>
             <li>
-              <h1><%= order._id %> </h1>
+              <h1><%= order._id %> - <a href="/orders/<%= order._id %>">Invoice</a></h1>
               <ul>
                 <% for( let item of order["products"]) { %>
                   <li>
