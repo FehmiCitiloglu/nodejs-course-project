@@ -27,6 +27,7 @@ const fileStorage = multer.diskStorage({
     console.log("file object", file);
     console.log("\x1b[36m%s\x1b[0m", cb);
     cb(null, new Date().toISOString() + "-" + file.originalname);
+    console.log("cb works");
   },
 });
 
@@ -37,8 +38,10 @@ const fileFilter = (req, file, cb) => {
     file.mimetype === "image/jpeg"
   ) {
     cb(null, true);
+    console.log("fileFilter if works");
   } else {
     cb(null, false);
+    console.log("fileFilter else works");
   }
 };
 
