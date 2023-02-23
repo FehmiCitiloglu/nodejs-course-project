@@ -16,6 +16,7 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
+  console.log("\x1b[36m%s\x1b[0m", "I am cyan"); //cyan
   const { title, description, price } = req.body;
   // const imageUrl = req.file;
   const image = req.file;

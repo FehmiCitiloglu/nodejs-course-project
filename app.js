@@ -25,6 +25,7 @@ const fileStorage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     console.log("file object", file);
+    console.log("\x1b[36m%s\x1b[0m", cb);
     cb(null, new Date().toISOString() + "-" + file.originalname);
   },
 });
