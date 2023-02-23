@@ -19,7 +19,7 @@ exports.postAddProduct = (req, res, next) => {
   const { title, description, price } = req.body;
   // const imageUrl = req.file;
   const image = req.file;
-  // console.log("is image exists", !image);
+  console.log("is image exists", image);
   if (!image) {
     // console.log("image", image);
     return res.status(422).render("admin/edit-product", {
@@ -39,7 +39,7 @@ exports.postAddProduct = (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    console.log(errors.array());
+    console.log("errors.array()", errors.array());
     return res.status(422).render("admin/edit-product", {
       pageTitle: "Add Product",
       path: "/admin/add-product",

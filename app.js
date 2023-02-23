@@ -117,6 +117,6 @@ mongoose
     app.listen(3000);
   })
   .catch((err) => {
-    console.log("patladi");
+    console.log("crashed");
     console.error(err);
   });
