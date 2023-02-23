@@ -11,7 +11,7 @@
   },
   "engines": {
     "yarn": "^1.22.19",
-    "node": "18.12.1"
+    "node": "19.x"
   },
   "license": "ISC",
   "devDependencies": {
