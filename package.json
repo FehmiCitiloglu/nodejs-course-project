@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "start-server": "node app.js"
+    "start-server": "node app.js",
+    "build:digitalocean": "yarn install --production=false && yarn run build && rm -rf node_modules && yarn install --production --frozen-lockfile"
   },
   "license": "ISC",
   "devDependencies": {
