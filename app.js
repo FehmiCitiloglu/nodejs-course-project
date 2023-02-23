@@ -22,6 +22,7 @@ const csrfProtection = csrf({});
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
+    console.log("\x1b[36m%s\x1b[0m", "fileStorage, cb works");
   },
   filename: (req, file, cb) => {
     console.log("file object", file);
@@ -56,7 +57,7 @@ const { get404, get500 } = require("./controllers/error");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
-
+console.log("images path", path.join(__dirname, "images"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: fileStorage, fileFilter }).single("image"));
 
