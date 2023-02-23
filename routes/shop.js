@@ -1,5 +1,3 @@
-// const path = require('path');
-
 const express = require("express");
 const {
   getProducts,
@@ -10,7 +8,9 @@ const {
   postCart,
   postCartDeleteProduct,
   postOrder,
+  getCheckoutSuccess,
   getInvoice,
+  getCheckout,
 } = require("../controllers/shop");
 
 // const rootDir = require('../util/path');
@@ -33,9 +33,12 @@ router.post("/cart", isAuth, postCart);
 
 router.post("/cart-delete-item", isAuth, postCartDeleteProduct);
 
-router.post("/create-order", isAuth, postOrder);
+// router.post("/create-order", isAuth, postOrder);
 
-// // router.get("/checkout", getCheckout)
+router.get("/checkout", isAuth, getCheckout);
+router.get("/checkout/success", getCheckoutSuccess);
+router.get("/checkout/cancel", getCheckout);
+
 router.get("/orders", isAuth, getOrders);
 
 router.get("/orders/:orderId", isAuth, getInvoice);

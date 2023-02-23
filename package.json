@@ -6,7 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    "start-server": "node app.js"
+    "start-server": "node app.js",
+    "build:digitalocean": "yarn install --production=false && yarn run build && rm -rf node_modules && yarn install --production --frozen-lockfile"
+  },
+  "engines": {
+    "yarn": "^1.22.19",
+    "node": "18.12.1"
   },
   "license": "ISC",
   "devDependencies": {
@@ -32,6 +37,7 @@
     "pdfkit": "^0.13.0",
     "pg": "^8.8.0",
     "pug": "^3.0.2",
-    "sequelize": "^6.25.0"
+    "sequelize": "^6.25.0",
+    "stripe": "^11.10.0"
   }
 }
